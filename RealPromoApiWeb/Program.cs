@@ -1,7 +1,11 @@
+using RealPromoApiWeb.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -23,5 +27,10 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseEndpoints(cfg =>
+{
+    cfg.MapHub<PromoHub>("/PromoHub");
+});
 
 app.Run();
